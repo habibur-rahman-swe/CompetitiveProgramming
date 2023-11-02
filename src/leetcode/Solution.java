@@ -9,16 +9,67 @@ import java.util.PriorityQueue;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 
-class Solution {
+class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
 
+	TreeNode() {
+	}
+
+	TreeNode(int val) {
+		this.val = val;
+	}
+
+	TreeNode(int val, TreeNode left, TreeNode right) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+	}
+}
+
+//2265. Count Nodes Equal to Average of Subtree
+class CountNodesEqualToAverateOfSubtree {
+    int ans = 0;
+    public int averageOfSubtree(TreeNode root) {
+        HashMap<TreeNode, Integer> hm = new HashMap<>();
+        
+        fillSum(hm, root);
+
+        return ans;
+    }
+
+    private  int fillSum(HashMap<TreeNode, Integer> hm, TreeNode root) {
+        int cnt = 1;
+        hm.put(root, root.val);
+
+        if (root.left != null) {
+            cnt += fillSum(hm, root.left);
+            hm.put(root, hm.get(root) + hm.get(root.left));
+        }
+
+        if (root.right != null) {
+            cnt += fillSum(hm, root.right);
+            hm.put(root, hm.get(root) + hm.get(root.right));
+        }
+
+        if (hm.get(root) / cnt == root.val) ++ans;
+        
+        return cnt;
+    }
+}
+
+public class Solution {
+
+	// ------------------------------------------------------------------
 	public int numberOfPoints(List<List<Integer>> nums) {
 		Collections.sort(nums, (a, b) -> (a.get(0) - b.get(0)));
 
 		return 0;
 	}
-	
+
 	public int[] findIndices(int[] nums, int indexDifference, int valueDifference) {
-		int ans[] = new int[] {-1, -1};
+		int ans[] = new int[] { -1, -1 };
 		for (int i = 0, minIdx = 0, maxIdx = 0; i < nums.length - indexDifference; i++) {
 			if (nums[i] < nums[minIdx]) {
 				minIdx = i;
@@ -39,31 +90,32 @@ class Solution {
 		}
 		return ans;
 	}
-	
+
 	public String shortestBeautifulSubstring(String s, int k) {
-        PriorityQueue<String> pq = new PriorityQueue<>();
-        StringBuilder sb = new StringBuilder();
-        
-        for (int i = 0, cnt = 0; i < s.length(); i++) {
-        	if (s.charAt(i) == 1) {
-        		++cnt;
-        	}
-        	sb.append(s.charAt(i));
-        	
-        	while (sb.length() > 0 && sb.charAt(0) == '0') {
-        		sb.deleteCharAt(0);
-        	}
-        	if (cnt > k) {
-        		while (sb.length() > 0 && cnt > k) {
-        			if (sb.charAt(0) == '1') --cnt;
-        			sb.deleteCharAt(0);
-        		}
-        	}
-        	pq.add(new String(sb));
-        }
-        return pq.size() == 0 ? pq.peek() : "";
-    }
-	
+		PriorityQueue<String> pq = new PriorityQueue<>();
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0, cnt = 0; i < s.length(); i++) {
+			if (s.charAt(i) == 1) {
+				++cnt;
+			}
+			sb.append(s.charAt(i));
+
+			while (sb.length() > 0 && sb.charAt(0) == '0') {
+				sb.deleteCharAt(0);
+			}
+			if (cnt > k) {
+				while (sb.length() > 0 && cnt > k) {
+					if (sb.charAt(0) == '1')
+						--cnt;
+					sb.deleteCharAt(0);
+				}
+			}
+			pq.add(new String(sb));
+		}
+		return pq.size() == 0 ? pq.peek() : "";
+	}
+
 	public int maxSum(int[] nums) {
 		PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> (b - a));
 		int ans = 0;
