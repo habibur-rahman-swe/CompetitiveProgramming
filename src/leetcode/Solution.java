@@ -9,25 +9,6 @@ import java.util.PriorityQueue;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 
-class TreeNode {
-	int val;
-	TreeNode left;
-	TreeNode right;
-
-	TreeNode() {
-	}
-
-	TreeNode(int val) {
-		this.val = val;
-	}
-
-	TreeNode(int val, TreeNode left, TreeNode right) {
-		this.val = val;
-		this.left = left;
-		this.right = right;
-	}
-}
-
 //2265. Count Nodes Equal to Average of Subtree
 class CountNodesEqualToAverateOfSubtree {
     int ans = 0;
@@ -395,6 +376,26 @@ class MyHashMap {
  * = new MyHashMap(); obj.put(key,value); int param_2 = obj.get(key);
  * obj.remove(key);
  */
+
+class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
+
+	TreeNode() {
+	}
+
+	TreeNode(int val) {
+		this.val = val;
+	}
+
+	TreeNode(int val, TreeNode left, TreeNode right) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+	}
+}
+
 
 class Node {
 	boolean forbidden;
