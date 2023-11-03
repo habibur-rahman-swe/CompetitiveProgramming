@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,12 +33,28 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int[] xyt = readIntegers(); int x = xyt[0], y = xyt[1], t = xyt[2];
+			int n = readInteger();
+			int[] arr = readIntegers();
 			
-			int ans = (y < x ? x : (x + t >= y ? y : (2 * y - x - t)));
+			Arrays.sort(arr);
 			
-			sb.append(ans);
+			int left = 0, right = 2 * n - 1;
+			
+			StringBuilder  res = new StringBuilder();
+			long sum = 0;
+			while (left < right) {
+				res.append(arr[left] + " " + arr[right] + "\n");
+				if (left > 0) {
+					sum += arr[left] - arr[left-1];
+					sum += arr[right+1] - arr[right];
+				}
+				left++;
+				right--;
+			}
+			
+			sb.append(sum);
 			sb.append("\n");
+			sb.append(res);
 		}
 
 		writer.write(sb.toString());
