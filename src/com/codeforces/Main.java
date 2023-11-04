@@ -23,16 +23,30 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-//		int testCases = readInteger();
-		int testCases = 1;
+		int testCases = readInteger();
+//		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int n = readInteger();
-			String s = readString();
+			long x = readLong();
+			long ans = -1;
 			
-			sb.append((s.contains("ab") | s.contains("ba")) ? "Yes" : "No");
+			for (long i = 2; i <= 18; i++) {
+				long temp = x, cnt = 0;
+				while (temp % i == 0 && temp > 0) {
+					temp /= i;
+					++cnt;
+				}
+				if (temp == 1 && i == cnt) {
+					ans = i;
+					break;
+				}
+			}
+			
+			if (x == 1) ans = 1;
+			
+			sb.append(ans);
 			sb.append("\n");
 		}
 
