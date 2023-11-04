@@ -7,6 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class Main {
 
@@ -29,31 +33,58 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			long x = readLong();
-			long ans = -1;
-			
-			for (long i = 2; i <= 18; i++) {
-				long temp = x, cnt = 0;
-				while (temp % i == 0 && temp > 0) {
-					temp /= i;
-					++cnt;
-				}
-				if (temp == 1 && i == cnt) {
-					ans = i;
-					break;
+			int[] nm = readIntegers();
+			int[] a = readIntegers();
+			int[] b = readIntegers();
+			int[] color = new int[nm[0]];
+			Arrays.fill(color, -1);
+
+			HashMap<Integer, List<Integer>> adj = new HashMap<>();
+
+			for (int i = 0; i < nm[0]; i++) {
+				adj.put(i, new ArrayList<>());
+			}
+			boolean flag = true;
+			for (int i = 0; i < nm[1]; i++) {
+				if (a[i] == b[i])
+					flag = false;
+				adj.get(a[i] - 1).add(b[i] - 1);
+				adj.get(b[i] - 1).add(a[i] - 1);
+			}
+
+			for (int i = 0; i < nm[0] & flag; i++) {
+				if (color[i] == -1) {
+					flag &= dfs(-1, i, color, adj);
 				}
 			}
-			
-			if (x == 1) ans = 1;
-			
-			sb.append(ans);
+			sb.append(flag ? "Yes" : "No");
 			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
 	}
-	
+
+	private static boolean dfs(int prev, int pres, int[] color, HashMap<Integer, List<Integer>> adj) {
+		if (color[pres] != -1)
+			return true;
+
+		if (prev != -1) {
+			color[pres] = (color[prev] + 1) % 2;
+		}
+		boolean flag = true;
+
+		for (int x : adj.get(pres)) {
+			if (color[x] == -1) {
+				flag &= dfs(pres, x, color, adj);
+			} else if (color[x] == color[pres]) {
+				return false;
+			}
+		}
+
+		return flag;
+	}
+
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
 		String s = reader.readLine();
