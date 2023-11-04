@@ -1,5 +1,7 @@
 package leetcode;
 
+import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,35 +11,77 @@ import java.util.PriorityQueue;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 
+
+
+//Build an Array With Stack Operation
+class F1441 {
+	public List<String> buildArray(int[] target, int n) {
+		List<String> list = new ArrayList<>();
+
+		for (int i = 1, idx = 0; i <= n; i++) {
+			list.add("Push");
+			if (target.length > idx && target[idx] == i) {
+				idx++;
+				if (idx == target.length)
+					break;
+				continue;
+			}
+			list.add("Pop");
+		}
+
+		return list;
+	}
+}
+
+//1503. Last Moment Before All Ants Fall Out of a Plank
+class F1503 {
+	public int getLastMoment(int n, int[] left, int[] right) {
+		Arrays.sort(left);
+		Arrays.sort(right);
+
+		if (left.length == 0) {
+			return n - right[0];
+		}
+
+		if (right.length == 0) {
+			return left[left.length - 1];
+		}
+
+		return Math.max(n - right[0], left[left.length - 1]);
+	}
+}
+
 //2265. Count Nodes Equal to Average of Subtree
 class CountNodesEqualToAverateOfSubtree {
-    int ans = 0;
-    public int averageOfSubtree(TreeNode root) {
-        HashMap<TreeNode, Integer> hm = new HashMap<>();
-        
-        fillSum(hm, root);
+	int ans = 0;
 
-        return ans;
-    }
+	public int averageOfSubtree(TreeNode root) {
+		HashMap<TreeNode, Integer> hm = new HashMap<>();
 
-    private  int fillSum(HashMap<TreeNode, Integer> hm, TreeNode root) {
-        int cnt = 1;
-        hm.put(root, root.val);
+		fillSum(hm, root);
 
-        if (root.left != null) {
-            cnt += fillSum(hm, root.left);
-            hm.put(root, hm.get(root) + hm.get(root.left));
-        }
+		return ans;
+	}
 
-        if (root.right != null) {
-            cnt += fillSum(hm, root.right);
-            hm.put(root, hm.get(root) + hm.get(root.right));
-        }
+	private int fillSum(HashMap<TreeNode, Integer> hm, TreeNode root) {
+		int cnt = 1;
+		hm.put(root, root.val);
 
-        if (hm.get(root) / cnt == root.val) ++ans;
-        
-        return cnt;
-    }
+		if (root.left != null) {
+			cnt += fillSum(hm, root.left);
+			hm.put(root, hm.get(root) + hm.get(root.left));
+		}
+
+		if (root.right != null) {
+			cnt += fillSum(hm, root.right);
+			hm.put(root, hm.get(root) + hm.get(root.right));
+		}
+
+		if (hm.get(root) / cnt == root.val)
+			++ans;
+
+		return cnt;
+	}
 }
 
 public class Solution {
@@ -395,7 +439,6 @@ class TreeNode {
 		this.right = right;
 	}
 }
-
 
 class Node {
 	boolean forbidden;
