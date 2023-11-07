@@ -9,8 +9,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class Main {
 
@@ -27,62 +29,60 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-		int testCases = readInteger();
-//		int testCases = 1;
+//		int testCases = readInteger();
+		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int[] nm = readIntegers();
-			int[] a = readIntegers();
-			int[] b = readIntegers();
-			int[] color = new int[nm[0]];
-			Arrays.fill(color, -1);
+			int[] nk = readIntegers();
+			int n = nk[0], k = nk[1];
+			int[][] stor = new int[n][3];
 
-			HashMap<Integer, List<Integer>> adj = new HashMap<>();
-
-			for (int i = 0; i < nm[0]; i++) {
-				adj.put(i, new ArrayList<>());
-			}
-			boolean flag = true;
-			for (int i = 0; i < nm[1]; i++) {
-				if (a[i] == b[i])
-					flag = false;
-				adj.get(a[i] - 1).add(b[i] - 1);
-				adj.get(b[i] - 1).add(a[i] - 1);
+			for (int i = 0; i < n; i++) {
+				int[] ar = readIntegers();
+				stor[i][0] = ar[0];
+				stor[i][1] = ar[1];
+				stor[i][2] = i;
 			}
 
-			for (int i = 0; i < nm[0] & flag; i++) {
-				if (color[i] == -1) {
-					flag &= dfs(-1, i, color, adj);
+			Arrays.sort(stor, Comparator.comparingInt(a -> a[0]));
+
+			TreeMap<Integer, List<Integer>> map = new TreeMap<Integer, List<Integer>>();
+			List<Integer> answer = new ArrayList<Integer>();
+
+			for (int i = 1, p = 0, size = 0; i <= 2E5; i++) {
+				while (p < n && stor[p][0] == i) {
+					if (!map.containsKey(stor[p][1])) {
+						map.put(stor[p][1], new ArrayList<>());
+					}
+					map.get(stor[p][1]).add(stor[p][2]);
+
+					if (size == k) {
+						int large = map.lastKey();
+						answer.add(map.get(large).remove(map.get(large).size() - 1));
+
+						if (map.get(large).size() == 0)
+							map.remove(large);
+					} else {
+						size++;
+					}
+					p++;
+				}
+				if (map.containsKey(i)) {
+					size -= map.get(i).size();
+					map.remove(i);
 				}
 			}
-			sb.append(flag ? "Yes" : "No");
-			sb.append("\n");
+
+			sb.append(answer.size() + "\n");
+			for (int x : answer)
+				sb.append(x + 1 + " ");
+//			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
-	}
-
-	private static boolean dfs(int prev, int pres, int[] color, HashMap<Integer, List<Integer>> adj) {
-		if (color[pres] != -1)
-			return true;
-
-		if (prev != -1) {
-			color[pres] = (color[prev] + 1) % 2;
-		}
-		boolean flag = true;
-
-		for (int x : adj.get(pres)) {
-			if (color[x] == -1) {
-				flag &= dfs(pres, x, color, adj);
-			} else if (color[x] == color[pres]) {
-				return false;
-			}
-		}
-
-		return flag;
 	}
 
 	// ------------------------------------------------------------------------------------
