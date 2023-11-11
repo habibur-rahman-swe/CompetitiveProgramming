@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.HashSet;
 
 public class Main {
 
@@ -29,11 +30,29 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int[] nk = readIntegers();
+			int n = readInteger();
 			int[] arr = readIntegers();
-			long ans = 0;
-			for (int x : arr) if (x <= nk[1]) ans += x;
-			sb.append(ans);
+			int cnt = 0;
+			
+			for (int i = 1; i <= n; i++) {
+				HashSet<Integer> set = new HashSet<>();
+				int temp = i;
+				while (temp > 0) {
+					set.add(temp % 10);
+					temp /= 10;
+				}
+				
+				for (int j = 1; j <= arr[i-1]; j++) {
+					HashSet<Integer> tSet = new HashSet<>(set);
+					int tTemp = j;
+					while (tTemp > 0) {
+						tSet.add(tTemp % 10);
+						tTemp /= 10;
+					}
+					if (tSet.size() == 1) ++cnt;
+				}
+			}
+			sb.append(cnt);
 			sb.append("\n");
 		}
 
