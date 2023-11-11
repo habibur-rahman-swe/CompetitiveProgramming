@@ -30,30 +30,28 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int n = readInteger();
-			int[] arr = readIntegers();
-			int cnt = 0;
-			
-			for (int i = 1; i <= n; i++) {
-				HashSet<Integer> set = new HashSet<>();
-				int temp = i;
-				while (temp > 0) {
-					set.add(temp % 10);
-					temp /= 10;
-				}
-				
-				for (int j = 1; j <= arr[i-1]; j++) {
-					HashSet<Integer> tSet = new HashSet<>(set);
-					int tTemp = j;
-					while (tTemp > 0) {
-						tSet.add(tTemp % 10);
-						tTemp /= 10;
-					}
-					if (tSet.size() == 1) ++cnt;
-				}
+			int nq[] = readIntegers();
+			int n = nq[0], q = nq[1];
+			String s = readString();
+			int[][] queries = new int[q][2];
+			for (int i = 0; i < q; i++) {
+				queries[i] = readIntegers();
 			}
-			sb.append(cnt);
-			sb.append("\n");
+
+			int[] sum = new int[n + 1];
+
+			for (int i = 2; i <= n; i++) {
+				if (s.charAt(i - 2) == s.charAt(i - 1)) {
+					sum[i] = 1;
+				}
+				sum[i] += sum[i - 1];
+			}
+
+			for (int[] qr : queries) {
+				sb.append(sum[qr[1]] - sum[qr[0]]).append("\n");
+			}
+
+//			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
