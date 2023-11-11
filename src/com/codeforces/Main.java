@@ -29,7 +29,11 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			
+			int[] nk = readIntegers();
+			int[] arr = readIntegers();
+			long ans = 0;
+			for (int x : arr) if (x <= nk[1]) ans += x;
+			sb.append(ans);
 			sb.append("\n");
 		}
 

@@ -1,4 +1,4 @@
-package com.atcoder.simple;
+package atcoder.simple;
 
 import java.io.File;
 import java.io.FileNotFoundException;
