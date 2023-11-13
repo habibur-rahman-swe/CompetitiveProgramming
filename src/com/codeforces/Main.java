@@ -24,34 +24,41 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-		int testCases = readInteger();
-//		int testCases = 1;
+//		int testCases = readInteger();
+		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int nq[] = readIntegers();
-			int n = nq[0], q = nq[1];
-			String s = readString();
-			int[][] queries = new int[q][2];
-			for (int i = 0; i < q; i++) {
-				queries[i] = readIntegers();
+			int n = readInteger();
+			int[] arr = readIntegers();
+
+			int[] brr = new int[n];
+
+			brr[0] = 0;
+
+			for (int i = 1; i < n; i++) {
+				brr[i] = arr[i - 1] ^ brr[i - 1];
 			}
 
-			int[] sum = new int[n + 1];
-
-			for (int i = 2; i <= n; i++) {
-				if (s.charAt(i - 2) == s.charAt(i - 1)) {
-					sum[i] = 1;
+			for (int k = 0; k < 20; k++) {
+				int count = 0;
+				for (int i = 0; i < n; i++) {
+					if ((brr[i] & 1 << k) > 0)
+						count--;
+					else
+						count++;
 				}
-				sum[i] += sum[i - 1];
+				if (count < 0) {
+					for (int i = 0; i < n; i++) {
+						brr[i] = brr[i] ^ (1 << k);
+					}
+				}
 			}
-
-			for (int[] qr : queries) {
-				sb.append(sum[qr[1]] - sum[qr[0]]).append("\n");
+			for (int x : brr) {
+				sb.append(x + " ");
 			}
-
-//			sb.append("\n");
+			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
