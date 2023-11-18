@@ -7,7 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -55,9 +57,11 @@ public class Main {
 					}
 				}
 			}
-			for (int x : brr) {
-				sb.append(x + " ");
-			}
+			
+			StringBuilder res = new StringBuilder();
+			Arrays.stream(brr).forEach(x -> res.append(x).append(" "));
+			
+			sb.append(res);
 			sb.append("\n");
 		}
 
