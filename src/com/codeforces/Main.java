@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.TreeSet;
 
 public class Main {
 
@@ -26,42 +25,22 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-//		int testCases = readInteger();
-		int testCases = 1;
+		int testCases = readInteger();
+//		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 			int n = readInteger();
 			int[] arr = readIntegers();
-
-			int[] brr = new int[n];
-
-			brr[0] = 0;
-
-			for (int i = 1; i < n; i++) {
-				brr[i] = arr[i - 1] ^ brr[i - 1];
-			}
-
-			for (int k = 0; k < 20; k++) {
-				int count = 0;
-				for (int i = 0; i < n; i++) {
-					if ((brr[i] & 1 << k) > 0)
-						count--;
-					else
-						count++;
-				}
-				if (count < 0) {
-					for (int i = 0; i < n; i++) {
-						brr[i] = brr[i] ^ (1 << k);
-					}
-				}
-			}
 			
-			StringBuilder res = new StringBuilder();
-			Arrays.stream(brr).forEach(x -> res.append(x).append(" "));
+			TreeSet<Integer> ts = new TreeSet<>();
 			
-			sb.append(res);
+			Arrays.stream(arr).forEach(x -> ts.add(x));
+			
+			ts.remove(ts.last());
+			
+			sb.append(ts.last());
 			sb.append("\n");
 		}
 
