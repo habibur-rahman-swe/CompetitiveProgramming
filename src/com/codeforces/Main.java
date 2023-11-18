@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import java.util.TreeSet;
 
 public class Main {
 
@@ -32,15 +31,29 @@ public class Main {
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 			int n = readInteger();
-			int[] arr = readIntegers();
+			String s = readString();
+			int[] arr = new int[26];
+
+			char prev = 'a';
+			int cnt = 0;
+			for (char pres : s.toCharArray()) {
+				if (prev != pres) {
+					arr[prev - 'a'] = Math.max(arr[prev - 'a'], cnt);
+					cnt = 1;
+				} else {
+					++cnt;
+				}
+				prev = pres;
+			}
+			arr[prev - 'a'] = Math.max(arr[prev - 'a'], cnt);
 			
-			TreeSet<Integer> ts = new TreeSet<>();
+			long ans = 0;
 			
-			Arrays.stream(arr).forEach(x -> ts.add(x));
+			for (long x : arr) {
+				ans += x;
+			}
 			
-			ts.remove(ts.last());
-			
-			sb.append(ts.last());
+			sb.append(ans);
 			sb.append("\n");
 		}
 
