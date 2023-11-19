@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class Main {
 
@@ -30,30 +32,33 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int n = readInteger();
-			String s = readString();
-			int[] arr = new int[26];
+			HashMap<Integer, HashSet<Integer>> hm = new HashMap<>();
 
-			char prev = 'a';
-			int cnt = 0;
-			for (char pres : s.toCharArray()) {
-				if (prev != pres) {
-					arr[prev - 'a'] = Math.max(arr[prev - 'a'], cnt);
-					cnt = 1;
-				} else {
-					++cnt;
-				}
-				prev = pres;
+			int[] nm = readIntegers();
+			int n = nm[0], q = nm[1];
+
+			int[] arr = readIntegers();
+
+			for (int i = 1; i <= n; i++) {
+				hm.put(i, new HashSet<>());
 			}
-			arr[prev - 'a'] = Math.max(arr[prev - 'a'], cnt);
-			
-			long ans = 0;
-			
-			for (long x : arr) {
-				ans += x;
+
+			for (int i = 1; i <= n; i++) {
+				hm.get(i).add(arr[i - 1]);
 			}
-			
-			sb.append(ans);
+
+			int[][] query = new int[q][2];
+			for (int i = 0; i < q; i++) {
+				query[i] = readIntegers();
+			}
+
+			for (int[] ab : query) {
+				hm.get(ab[1]).addAll(hm.get(ab[0]));
+				hm.get(ab[0]).clear();
+
+				sb.append(hm.get(ab[1]).size()).append("\n");
+			}
+
 			sb.append("\n");
 		}
 
