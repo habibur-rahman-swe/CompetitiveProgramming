@@ -26,42 +26,42 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-//		int testCases = readInteger();
-		int testCases = 1;
+		int testCases = readInteger();
+//		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int n = readInteger();
-			int[] arr = readIntegers();
+			int[] nk = readIntegers();
+			int n = nk[0], k = nk[1];
+			String s = readString();
 
-			int[] brr = new int[n];
+			int[] sum = new int[n];
 
-			brr[0] = 0;
-
-			for (int i = 1; i < n; i++) {
-				brr[i] = arr[i - 1] ^ brr[i - 1];
+			for (int i = n - 1; i >= 0; i--) {
+				if (i == n - 1)
+					sum[i] = (s.charAt(i) == 'B' ? 1 : 0);
+				else
+					sum[i] += sum[i + 1] + (s.charAt(i) == 'B' ? 1 : 0);
 			}
 
-			for (int k = 0; k < 20; k++) {
-				int count = 0;
-				for (int i = 0; i < n; i++) {
-					if ((brr[i] & 1 << k) > 0)
-						count--;
-					else
-						count++;
+			if (sum[0] == k) {
+				sb.append(0);
+			} else if (sum[0] > k) {
+				sb.append(1).append("\n");
+				int idx = 0;
+				while (idx < n && sum[idx] > k) {
+					idx++;
 				}
-				if (count < 0) {
-					for (int i = 0; i < n; i++) {
-						brr[i] = brr[i] ^ (1 << k);
-					}
+				sb.append(idx + " A");
+			} else {
+				sb.append(1).append("\n");
+				int idx = 0;
+				while (idx < n && idx + sum[idx] < k) {
+					idx++;
 				}
+				sb.append(idx + " " + "B");
 			}
-			
-			StringBuilder res = new StringBuilder();
-			Arrays.stream(brr).forEach(x -> res.append(x).append(" "));
-			
-			sb.append(res);
 			sb.append("\n");
 		}
 
