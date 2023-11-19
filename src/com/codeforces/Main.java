@@ -32,36 +32,33 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int[] nk = readIntegers();
-			int n = nk[0], k = nk[1];
-			String s = readString();
+			int n = readInteger();
+			long[] arr = readLongs();
 
-			int[] sum = new int[n];
+			long ans = 0;
 
-			for (int i = n - 1; i >= 0; i--) {
-				if (i == n - 1)
-					sum[i] = (s.charAt(i) == 'B' ? 1 : 0);
-				else
-					sum[i] += sum[i + 1] + (s.charAt(i) == 'B' ? 1 : 0);
+			long min = arr[n - 1];
+
+			for (int i = n - 2; i >= 0; i--) {
+				if (min == 1) {
+					ans += arr[i] - 1;
+					continue;
+				}
+				if (arr[i] > min) {
+					long cnt = 1;
+
+					while (arr[i] > min) {
+						arr[i] /= 2;
+						ans += cnt;
+						cnt *= 2;
+					}
+					min = arr[i];
+				}
+
+				min = Math.min(min, arr[i]);
 			}
 
-			if (sum[0] == k) {
-				sb.append(0);
-			} else if (sum[0] > k) {
-				sb.append(1).append("\n");
-				int idx = 0;
-				while (idx < n && sum[idx] > k) {
-					idx++;
-				}
-				sb.append(idx + " A");
-			} else {
-				sb.append(1).append("\n");
-				int idx = 0;
-				while (idx < n && idx + sum[idx] < k) {
-					idx++;
-				}
-				sb.append(idx + " " + "B");
-			}
+			sb.append(ans);
 			sb.append("\n");
 		}
 
