@@ -7,9 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -32,33 +29,28 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int n = readInteger();
-			long[] arr = readLongs();
+			long[] ar = readLongs();
+			long n = ar[0], a = ar[1], b = ar[2];
 
-			long ans = 0;
+			boolean flag = false;
 
-			long min = arr[n - 1];
-
-			for (int i = n - 2; i >= 0; i--) {
-				if (min == 1) {
-					ans += arr[i] - 1;
-					continue;
+			if (a == 1) {
+				sb.append((n - 1) % b == 0 ? "Yes" : "No").append("\n");
+				continue;
+			}
+			
+			long x = 1;
+			
+			while (x <= n) {
+				if ((n - x) % b == 0) {
+					flag = true;
+					break;
 				}
-				if (arr[i] > min) {
-					long cnt = 1;
-
-					while (arr[i] > min) {
-						arr[i] /= 2;
-						ans += cnt;
-						cnt *= 2;
-					}
-					min = arr[i];
-				}
-
-				min = Math.min(min, arr[i]);
+				x *= a;
 			}
 
-			sb.append(ans);
+			sb.append(flag ? "Yes" : "No");
+
 			sb.append("\n");
 		}
 
