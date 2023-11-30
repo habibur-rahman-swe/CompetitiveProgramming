@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.PriorityQueue;
 
 public class Main {
 
@@ -23,34 +25,29 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-		int testCases = readInteger();
-//		int testCases = 1;
+//		int testCases = readInteger();
+		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
+			int n = readInteger();
 			long[] ar = readLongs();
-			long n = ar[0], a = ar[1], b = ar[2];
 
-			boolean flag = false;
-
-			if (a == 1) {
-				sb.append((n - 1) % b == 0 ? "Yes" : "No").append("\n");
-				continue;
-			}
+			PriorityQueue<Long> pq = new PriorityQueue<Long>();
 			
-			long x = 1;
+			long sum = 0;
 			
-			while (x <= n) {
-				if ((n - x) % b == 0) {
-					flag = true;
-					break;
+			for (long x : ar) {
+				pq.offer(x);
+				sum += x;
+				
+				if (sum < 0) {
+					sum -= pq.poll();
 				}
-				x *= a;
 			}
-
-			sb.append(flag ? "Yes" : "No");
-
+			
+			sb.append(pq.size());
 			sb.append("\n");
 		}
 
