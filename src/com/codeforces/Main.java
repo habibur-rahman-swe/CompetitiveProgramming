@@ -32,36 +32,7 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int n = readInteger();
-			int[] arr = readIntegers();
-
-			int[] brr = new int[n];
-
-			brr[0] = 0;
-
-			for (int i = 1; i < n; i++) {
-				brr[i] = arr[i - 1] ^ brr[i - 1];
-			}
-
-			for (int k = 0; k < 20; k++) {
-				int count = 0;
-				for (int i = 0; i < n; i++) {
-					if ((brr[i] & 1 << k) > 0)
-						count--;
-					else
-						count++;
-				}
-				if (count < 0) {
-					for (int i = 0; i < n; i++) {
-						brr[i] = brr[i] ^ (1 << k);
-					}
-				}
-			}
 			
-			StringBuilder res = new StringBuilder();
-			Arrays.stream(brr).forEach(x -> res.append(x).append(" "));
-			
-			sb.append(res);
 			sb.append("\n");
 		}
 
