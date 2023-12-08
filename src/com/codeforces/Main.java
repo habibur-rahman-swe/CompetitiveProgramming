@@ -33,64 +33,28 @@ public class Main {
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 			int n = readInteger();
-			Ath[] ath = new Ath[n];
+			int[] ar = readIntegers();
 
-			for (int i = 0; i < n; i++) {
-				ath[i] = new Ath(readIntegers());
+			int[] xor = new int[n+1];
+			
+			for (int i = 1; i <= n; i++) {
+				xor[i] = xor[i-1] ^ ar[i-1];
 			}
-
-			int g = 0;
 			
-			startTime = System.nanoTime();
+			boolean yes = xor[n] == 0;
 			
-			for (int i = 0; i < n; i++) {
-				if (compare(ath[g], ath[i]) >= 3) {
-					continue;
+			for (int i = 1; i <= n; i++) {
+				for (int j = i + 1; j < n; j++) {
+					yes |= (xor[i] == (xor[j] ^ xor[i]) && (xor[i] == (xor[n] ^ xor[j])));
 				}
-				g = i;
 			}
 			
-			for (int i = 0; i < n; i++) {
-				if (compare(ath[g], ath[i]) >= 3 || i == g) {
-					continue;
-				}
-				g = -2;
-				break;
-			}
-			
-			
-			sb.append(g + 1);
+			sb.append(yes ? "YES" : "NO");
 			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
-	}
-
-	private static int compare(Ath ath1, Ath ath2) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (ath1.ar[i] < ath2.ar[i]) ++cnt;
-		}
-		return cnt;
-	}
-
-	private static boolean notSup(int[] a, int[] b) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (a[i] > b[i])
-				++cnt;
-		}
-		return cnt > 3;
-	}
-
-	static class Ath {
-		int m = 5;
-		int[] ar = new int[5];
-
-		Ath(int[] ar) {
-			this.ar = ar;
-		}
 	}
 
 	// ------------------------------------------------------------------------------------
