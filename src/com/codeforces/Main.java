@@ -26,47 +26,71 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-//		int testCases = readInteger();
-		int testCases = 1;
+		int testCases = readInteger();
+//		int testCases = 1;
 
-//		long startTime = System.nanoTime();
+		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 			int n = readInteger();
-			int[] arr = readIntegers();
+			Ath[] ath = new Ath[n];
 
-			int[] brr = new int[n];
-
-			brr[0] = 0;
-
-			for (int i = 1; i < n; i++) {
-				brr[i] = arr[i - 1] ^ brr[i - 1];
+			for (int i = 0; i < n; i++) {
+				ath[i] = new Ath(readIntegers());
 			}
 
-			for (int k = 0; k < 20; k++) {
-				int count = 0;
-				for (int i = 0; i < n; i++) {
-					if ((brr[i] & 1 << k) > 0)
-						count--;
-					else
-						count++;
+			int g = 0;
+			
+			startTime = System.nanoTime();
+			
+			for (int i = 0; i < n; i++) {
+				if (compare(ath[g], ath[i]) >= 3) {
+					continue;
 				}
-				if (count < 0) {
-					for (int i = 0; i < n; i++) {
-						brr[i] = brr[i] ^ (1 << k);
-					}
-				}
+				g = i;
 			}
 			
-			StringBuilder res = new StringBuilder();
-			Arrays.stream(brr).forEach(x -> res.append(x).append(" "));
+			for (int i = 0; i < n; i++) {
+				if (compare(ath[g], ath[i]) >= 3 || i == g) {
+					continue;
+				}
+				g = -2;
+				break;
+			}
 			
-			sb.append(res);
+			
+			sb.append(g + 1);
 			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
+	}
+
+	private static int compare(Ath ath1, Ath ath2) {
+		int cnt = 0;
+		for (int i = 0; i < 5; i++) {
+			if (ath1.ar[i] < ath2.ar[i]) ++cnt;
+		}
+		return cnt;
+	}
+
+	private static boolean notSup(int[] a, int[] b) {
+		int cnt = 0;
+		for (int i = 0; i < 5; i++) {
+			if (a[i] > b[i])
+				++cnt;
+		}
+		return cnt > 3;
+	}
+
+	static class Ath {
+		int m = 5;
+		int[] ar = new int[5];
+
+		Ath(int[] ar) {
+			this.ar = ar;
+		}
 	}
 
 	// ------------------------------------------------------------------------------------
