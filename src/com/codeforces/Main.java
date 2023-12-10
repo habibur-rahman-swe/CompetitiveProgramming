@@ -7,9 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class Main {
 
@@ -26,14 +26,47 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-//		int testCases = readInteger();
-		int testCases = 1;
+		int testCases = readInteger();
+//		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
+			int n = readInteger();
 			
-			sb.append("\n");
+			long maxSize = 0, maxSizeCost = 0;
+			long leftMost = Integer.MAX_VALUE, lCost = 0;
+			long rightMost = Integer.MIN_VALUE, rCost = 0;
+			
+			for (int i = 0; i < n; i++) {
+				int[] lrc = readIntegers();
+				long l = lrc[0], r = lrc[1], cost = lrc[2];
+				
+				if (r - l + 1 > maxSize || (r - l + 1 == maxSize && maxSizeCost > cost)) {
+					maxSizeCost = cost;
+					maxSize = r - l + 1;
+				}
+				if (l < leftMost || (l == leftMost && cost < lCost)) {
+					lCost = cost;
+					leftMost = l;
+				}
+				if (r > rightMost || (r == rightMost && cost < rCost)) {
+					rCost = cost;
+					rightMost = r;
+				}
+				
+				long size = rightMost - leftMost + 1;
+				long ans = 0;
+				
+				if (size == maxSize) {
+					ans = Math.min(maxSizeCost, rCost + lCost);
+				} else {
+					ans = rCost + lCost;
+				}
+				sb.append(ans).append("\n");
+			}
+
+			//sb.append("\n");
 		}
 
 		writer.write(sb.toString());
