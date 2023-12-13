@@ -33,9 +33,22 @@ public class Main {
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 
-			
-			
-			
+			char[] s = readString().toCharArray();
+			char[] t = readString().toCharArray();
+
+			int sIdx = s.length - 1, tIdx = t.length - 1;
+
+			while (sIdx >= 0 && tIdx >= 0) {
+				if (s[sIdx] == t[tIdx]) {
+					sIdx--;
+					tIdx--;
+				} else {
+					sIdx -= 2;
+				}
+			}
+
+			sb.append(tIdx < 0 ? "YES" : "NO");
+
 			sb.append("\n");
 		}
 
@@ -46,7 +59,8 @@ public class Main {
 	private static int compare(Ath ath1, Ath ath2) {
 		int cnt = 0;
 		for (int i = 0; i < 5; i++) {
-			if (ath1.ar[i] < ath2.ar[i]) ++cnt;
+			if (ath1.ar[i] < ath2.ar[i])
+				++cnt;
 		}
 		return cnt;
 	}
