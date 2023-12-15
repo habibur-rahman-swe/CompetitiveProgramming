@@ -7,9 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
@@ -33,9 +32,40 @@ public class Main {
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 
-			
-			
-			
+			int n = readInteger();
+			char[] s = readString().toCharArray();
+
+			Map<Long, Integer> map = new HashMap<>();
+
+			long dc = 0, kc = 0;
+
+			for (char c : s) {
+				if (c == 'D') {
+					++dc;
+				} else {
+					++kc;
+				}
+
+				long a = dc;
+				long b = kc;
+
+				if (a == 0)
+					b = 1;
+				else if (b == 0)
+					a = 1;
+				else {
+					long gcd = gcd(a, b);
+					a /= gcd;
+					b /= gcd;
+				}
+
+				long key = a * 1000000 + b;
+
+				map.put(key, map.getOrDefault(key, 0) + 1);
+
+				sb.append(map.get(key)).append(" ");
+			}
+
 			sb.append("\n");
 		}
 
@@ -43,30 +73,8 @@ public class Main {
 		writer.flush();
 	}
 
-	private static int compare(Ath ath1, Ath ath2) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (ath1.ar[i] < ath2.ar[i]) ++cnt;
-		}
-		return cnt;
-	}
-
-	private static boolean notSup(int[] a, int[] b) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (a[i] > b[i])
-				++cnt;
-		}
-		return cnt > 3;
-	}
-
-	static class Ath {
-		int m = 5;
-		int[] ar = new int[5];
-
-		Ath(int[] ar) {
-			this.ar = ar;
-		}
+	private static long gcd(long a, long b) {
+		return (a % b == 0 ? b : gcd(b, a % b));
 	}
 
 	// ------------------------------------------------------------------------------------
