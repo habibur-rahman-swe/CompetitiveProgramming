@@ -1,4 +1,4 @@
-package com.codeforces;
+//package com.codeforces;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,15 +26,23 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-		int testCases = readInteger();
-//		int testCases = 1;
+//		int testCases = readInteger();
+		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-
+			long N = readLong();
 			
-			
+			for (long n = 1; n <= N; n++) {
+				long n_1 = n;
+				long n_2 = n_1 * n_1;
+				long n_4 = n_2 * n_2;
+				
+				long ans = ((n_4 - n_2) / 2) - 4 * (n_1 - 1) * (n_1 - 2);
+				
+				sb.append(ans).append("\n");
+			}
 			
 			sb.append("\n");
 		}
