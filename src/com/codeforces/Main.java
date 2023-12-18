@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.HashMap;
 
 public class Main {
 
@@ -32,33 +30,51 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-
-			String s = readString();
-
-			int one = 0, zero = 0;
-			int cnt = 0;
-
-			for (char c : s.toCharArray()) {
-				if (c == '1')
-					++one;
-				else
-					++zero;
+			int q = readInteger();
+			int[][] arr = new int[q][2];
+			
+			for (int i = 0; i < q; i++) {
+				arr[i] = readIntegers();
 			}
 			
-			for (int i = 0; i < s.length(); i++) {
-				if (s.charAt(i) == '1' && zero == 0) break;
-				if (s.charAt(i) == '0' && one == 0) break;
-				if (s.charAt(i) == '0') --one;
-				else if (s.charAt(i) == '1') --zero;
-				++cnt;
+			HashMap<Integer, Integer> map = new HashMap<>();
+			
+			for (int i = 0; i < 30; i++) {
+				map.put(i, (int)Math.pow(2, i));
 			}
-
-			sb.append(s.length() - cnt);
+			
+			int[] dp = new int[30];
+			
+			for (int[] xy : arr) {
+				int x = xy[0];
+				int y = xy[1];
+				
+				if (x == 1) {
+					dp[y]++;
+				} else {
+					sb.append(isPossible(y, dp, map) ? "YES" : "NO").append("\n");
+				}
+			}
+			
 			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
+	}
+
+	private static boolean isPossible(int w, int[] dp, HashMap<Integer, Integer> map) {
+		for (int i = 29; i >= 0; i--) {
+			if (dp[i] > 0 && map.get(i) <= w) {
+				int t1 = dp[i];
+				int t2 = w / map.get(i);
+				int t = Math.min(t1, t2);
+				
+				w -= t * map.get(i);
+			}
+			if (w == 0) return true;
+		}
+		return false;
 	}
 
 	// ------------------------------------------------------------------------------------
