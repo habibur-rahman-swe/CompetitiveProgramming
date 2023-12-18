@@ -33,22 +33,27 @@ public class Main {
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 
-			String ab = readString();
+			String s = readString();
 
-			int l = 0, r = 1;
+			int one = 0, zero = 0;
+			int cnt = 0;
 
-			while (r < ab.length() && ab.charAt(r) == '0')
-				++r;
-			String a = ab.substring(0, r);
-			String b = ab.substring(r);
-			if (a.length() < b.length()) {
-				sb.append(a + " " + b);
-			} else if (a.length() == b.length() && b.compareTo(a) > 0) {
-				sb.append(a + " " + b);
-			} else {
-				sb.append("-1");
+			for (char c : s.toCharArray()) {
+				if (c == '1')
+					++one;
+				else
+					++zero;
+			}
+			
+			for (int i = 0; i < s.length(); i++) {
+				if (s.charAt(i) == '1' && zero == 0) break;
+				if (s.charAt(i) == '0' && one == 0) break;
+				if (s.charAt(i) == '0') --one;
+				else if (s.charAt(i) == '1') --zero;
+				++cnt;
 			}
 
+			sb.append(s.length() - cnt);
 			sb.append("\n");
 		}
 
