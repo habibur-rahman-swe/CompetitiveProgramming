@@ -33,16 +33,28 @@ public class Main {
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 
-			
-			
-			
+			String ab = readString();
+
+			int l = 0, r = 1;
+
+			while (r < ab.length() && ab.charAt(r) == '0')
+				++r;
+			String a = ab.substring(0, r);
+			String b = ab.substring(r);
+			if (a.length() < b.length()) {
+				sb.append(a + " " + b);
+			} else if (a.length() == b.length() && b.compareTo(a) > 0) {
+				sb.append(a + " " + b);
+			} else {
+				sb.append("-1");
+			}
+
 			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
 	}
-
 
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
