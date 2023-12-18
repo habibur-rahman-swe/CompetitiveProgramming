@@ -43,31 +43,6 @@ public class Main {
 		writer.flush();
 	}
 
-	private static int compare(Ath ath1, Ath ath2) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (ath1.ar[i] < ath2.ar[i]) ++cnt;
-		}
-		return cnt;
-	}
-
-	private static boolean notSup(int[] a, int[] b) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (a[i] > b[i])
-				++cnt;
-		}
-		return cnt > 3;
-	}
-
-	static class Ath {
-		int m = 5;
-		int[] ar = new int[5];
-
-		Ath(int[] ar) {
-			this.ar = ar;
-		}
-	}
 
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
