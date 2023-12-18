@@ -32,9 +32,30 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-
+			reader.readLine();
+			int nk[] = readIntegers(); int n = nk[0], k = nk[1];
+			int[] ar = readIntegers();
+			int[] tm = readIntegers();
 			
+			long[] res = new long[n+2];
 			
+			Arrays.fill(res, Integer.MAX_VALUE);
+			
+			for (int i = 0; i < k; i++) {
+				res[ar[i]] = Math.min(tm[i], res[ar[i]]);
+			}
+			
+			for (int i = 2; i <= n; i++) {
+				res[i] = Math.min(res[i-1] + 1, res[i]);
+			}
+			
+			for (int i = n - 1; i >= 1; i--) {
+				res[i] =  Math.min(res[i], res[i+1] + 1);
+			}
+			
+			for (int i = 1; i <= n; i++) {
+				sb.append(res[i] + " ");
+			}
 			
 			sb.append("\n");
 		}
