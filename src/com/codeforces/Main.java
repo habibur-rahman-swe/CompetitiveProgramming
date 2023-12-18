@@ -1,4 +1,4 @@
-//package com.codeforces;
+package com.codeforces;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,9 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -32,18 +29,25 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			long N = readLong();
-			
-			for (long n = 1; n <= N; n++) {
-				long n_1 = n;
-				long n_2 = n_1 * n_1;
-				long n_4 = n_2 * n_2;
+			int x = readInteger();
+			int n = (int) Math.pow(2, x);
+
+			int[] arr = new int[x];
+
+			for (int i = 0; i < n; i++) {
+				if (i > 0) {
+					increment(arr);
+				}
+
+				for (int j = 0; j < arr.length; j++) {
+					int val = arr[j];
+					if (j > 0) val ^= arr[j-1];
+					sb.append(val);
+				}
 				
-				long ans = ((n_4 - n_2) / 2) - 4 * (n_1 - 1) * (n_1 - 2);
-				
-				sb.append(ans).append("\n");
+				sb.append("\n");
 			}
-			
+
 			sb.append("\n");
 		}
 
@@ -51,29 +55,15 @@ public class Main {
 		writer.flush();
 	}
 
-	private static int compare(Ath ath1, Ath ath2) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (ath1.ar[i] < ath2.ar[i]) ++cnt;
-		}
-		return cnt;
-	}
-
-	private static boolean notSup(int[] a, int[] b) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (a[i] > b[i])
-				++cnt;
-		}
-		return cnt > 3;
-	}
-
-	static class Ath {
-		int m = 5;
-		int[] ar = new int[5];
-
-		Ath(int[] ar) {
-			this.ar = ar;
+	private static void increment(int[] arr) {
+		int carry = 1;
+		for (int i = arr.length - 1; i >= 0; i--) {
+			arr[i] += carry;
+			carry = 0;
+			if (arr[i] > 1) {
+				arr[i] = 0;
+				carry = 1;
+			}
 		}
 	}
 
