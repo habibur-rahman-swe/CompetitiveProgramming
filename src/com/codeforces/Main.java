@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public class Main {
 
@@ -30,27 +30,42 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int[] nk = readIntegers(); int n = nk[0], k = nk[1];
-			int[] ar = readIntegers();
-			int[] br = readIntegers();
+			int n = readInteger();
+			int[] a = readIntegers();
+			int[] b = readIntegers();
+			int[] c = readIntegers();
 			
-			long sum1 = 0, sum2 = 0;
-			long ans = 0;
+			PriorityQueue<Integer> pa = new PriorityQueue<>((x, y) -> a[x] - a[y]);
+			PriorityQueue<Integer> pb = new PriorityQueue<>((x, y) -> b[x] - b[y]);
+			PriorityQueue<Integer> pc = new PriorityQueue<>((x, y) -> c[x] - c[y]);
 			
-			int max = 0, tMax = 0;
-			
-			for (int i = 0; i < n && k > 0; i++, k--) {
-				if (sum1 >= sum2) {
-					max = Math.max(tMax, max);
-					sum2 = sum1;
-				}
+			for (int i = 0; i < n; i++) {
+				pa.add(i);
+				pb.add(i);
+				pc.add(i);
 				
-				sum1 += ar[i];
-				sum2 += i == 0 ? ar[i] : max;
-				tMax = Math.max(tMax, br[i]);
+				if (pa.size() > 3) {
+					pa.poll();
+				}
+				if (pb.size() > 3) {
+					pb.poll();
+				}
+				if (pc.size() > 3) {
+					pc.poll();
+				}
 			}
 			
-			ans = Math.max(sum1, sum2) + (long)tMax * k;
+			long ans = 0;
+			
+			for (int i : pa) {
+				for (int j : pb) {
+					for (int k : pc) {
+						if (i != j && j != k && i != k) {
+							ans = Math.max(ans, (long) a[i] + (long) b[j] + (long) c[k]);
+						}
+					}
+				}
+			}
 			
 			sb.append(ans);
 			sb.append("\n");
