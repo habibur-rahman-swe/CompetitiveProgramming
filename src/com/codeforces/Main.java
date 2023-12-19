@@ -31,15 +31,28 @@ public class Main {
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 			int[] nk = readIntegers(); int n = nk[0], k = nk[1];
+			int[] ar = readIntegers();
+			int[] br = readIntegers();
 			
-			for (int i = n - k; i >= 1; i--) {
-				sb.append(i + " ");
+			long sum1 = 0, sum2 = 0;
+			long ans = 0;
+			
+			int max = 0, tMax = 0;
+			
+			for (int i = 0; i < n && k > 0; i++, k--) {
+				if (sum1 >= sum2) {
+					max = Math.max(tMax, max);
+					sum2 = sum1;
+				}
+				
+				sum1 += ar[i];
+				sum2 += i == 0 ? ar[i] : max;
+				tMax = Math.max(tMax, br[i]);
 			}
 			
-			for (int i = n - k + 1; i <= n; i++) {
-				sb.append(i + " ");
-			}
+			ans = Math.max(sum1, sum2) + (long)tMax * k;
 			
+			sb.append(ans);
 			sb.append("\n");
 		}
 
