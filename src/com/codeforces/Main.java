@@ -30,24 +30,16 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-
-			int n = readInteger();
-			String s = readString();
-
-			HashMap<Character, Integer> map = new HashMap<>();
-
-			for (char c : s.toCharArray()) {
-				map.put(c, map.getOrDefault(c, 0) + 1);
+			int[] nk = readIntegers(); int n = nk[0], k = nk[1];
+			
+			for (int i = n - k; i >= 1; i--) {
+				sb.append(i + " ");
 			}
-
-			int cnt = 0;
-
-			for (char c : map.keySet()) {
-				if (map.get(c) >= (c - 'A' + 1))
-					++cnt;
+			
+			for (int i = n - k + 1; i <= n; i++) {
+				sb.append(i + " ");
 			}
-
-			sb.append(cnt);
+			
 			sb.append("\n");
 		}
 
