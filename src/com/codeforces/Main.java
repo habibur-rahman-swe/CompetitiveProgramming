@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.HashMap;
 
 public class Main {
 
@@ -33,16 +31,29 @@ public class Main {
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 
-			
-			
-			
+			int n = readInteger();
+			String s = readString();
+
+			HashMap<Character, Integer> map = new HashMap<>();
+
+			for (char c : s.toCharArray()) {
+				map.put(c, map.getOrDefault(c, 0) + 1);
+			}
+
+			int cnt = 0;
+
+			for (char c : map.keySet()) {
+				if (map.get(c) >= (c - 'A' + 1))
+					++cnt;
+			}
+
+			sb.append(cnt);
 			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
 	}
-
 
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
