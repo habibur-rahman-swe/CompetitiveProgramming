@@ -26,15 +26,12 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-		int testCases = readInteger();
-//		int testCases = 1;
+//		int testCases = readInteger();
+		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-
-			
-			
 			
 			sb.append("\n");
 		}
