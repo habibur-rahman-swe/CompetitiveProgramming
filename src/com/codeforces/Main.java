@@ -1,4 +1,4 @@
-package com.codeforces;
+//package com.codeforces;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,33 +24,45 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-		int testCases = readInteger();
-//		int testCases = 1;
+//		int testCases = readInteger();
+		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int[] nk = readIntegers();
-			int n = nk[0], k = nk[1];
-			int[] ar = readIntegers();
-			int[] br = readIntegers();
-
-			long sum = 0, ans = 0, max = 0;
-
-			for (int i = 0; i < n && k > 0; i++, k--) {
-				sum += ar[i];
-				max = Math.max(max, br[i]);
-				ans = Math.max(ans, sum + (k - 1) * max);
-			}
-
-			sb.append(ans);
+			int n = readInteger();
+			
+			Result result = new Result();
+			
+			towerOfHanoi(n, 1, 3, 2, result);
+			sb.append(result.cnt);
 			sb.append("\n");
+			sb.append(result.sb);
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
 	}
 
+	private static void towerOfHanoi(int n, int from, int to, int aux, Result res) {
+		if (n == 0)
+			return;
+
+		towerOfHanoi(n - 1, from, aux, to, res);
+		res.cnt++;
+		res.sb.append(from + " " + to).append("\n");
+		towerOfHanoi(n - 1, aux, to, from, res);
+	}
+
+	static class Result {
+		int cnt = 0;
+		StringBuilder sb;
+		
+		Result() {
+			this.sb = new StringBuilder("");
+		}
+	}
+	
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
 		String s = reader.readLine();
