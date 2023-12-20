@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.HashMap;
 
 public class Main {
 
@@ -32,41 +30,25 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
+			int[] nk = readIntegers();
+			int n = nk[0], k = nk[1];
+			int[] ar = readIntegers();
+			int[] br = readIntegers();
 
-			
-			
-			
+			long sum = 0, ans = 0, max = 0;
+
+			for (int i = 0; i < n && k > 0; i++, k--) {
+				sum += ar[i];
+				max = Math.max(max, br[i]);
+				ans = Math.max(ans, sum + (k - 1) * max);
+			}
+
+			sb.append(ans);
 			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
-	}
-
-	private static int compare(Ath ath1, Ath ath2) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (ath1.ar[i] < ath2.ar[i]) ++cnt;
-		}
-		return cnt;
-	}
-
-	private static boolean notSup(int[] a, int[] b) {
-		int cnt = 0;
-		for (int i = 0; i < 5; i++) {
-			if (a[i] > b[i])
-				++cnt;
-		}
-		return cnt > 3;
-	}
-
-	static class Ath {
-		int m = 5;
-		int[] ar = new int[5];
-
-		Ath(int[] ar) {
-			this.ar = ar;
-		}
 	}
 
 	// ------------------------------------------------------------------------------------
