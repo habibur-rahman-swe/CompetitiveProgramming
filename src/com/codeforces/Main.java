@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
 
 public class Main {
 
@@ -26,12 +24,17 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-//		int testCases = readInteger();
-		int testCases = 1;
+		int testCases = readInteger();
+//		int testCases = 1;
 
 //		long startTime = System.nanoTime();
-
+		
 		for (int testCase = 1; testCase <= testCases; testCase++) {
+			long n = readLong();
+			
+			long x = (long)Math.sqrt(2 * n -  1);
+			
+			sb.append((x - 1) / 2);
 			
 			sb.append("\n");
 		}
@@ -40,7 +43,7 @@ public class Main {
 		writer.flush();
 	}
 
-	
+
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
 		String s = reader.readLine();
