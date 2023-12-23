@@ -1,4 +1,4 @@
-package com.codeforces;
+//package com.codeforces;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,13 +26,46 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-//		int testCases = readInteger();
-		int testCases = 1;
+		int testCases = readInteger();
+//		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
+			int n = readInteger();
 			
+			int [][] arr = new int[n][2];
+			
+			for (int i = 0; i < n; i++) {
+				arr[i] = readIntegers();
+			}
+			
+			Arrays.sort(arr, (a, b) -> (a[0] - b[0]));
+			
+			boolean left = false, right = false, up = false, down = false;
+			
+			int prevX = 0, prevY = 0;
+			
+			for (int[] cor : arr) {
+				int x = cor[0], y = cor[1];
+				
+				if (x > prevX) {
+					right = true;
+				} else if (x < prevX) {
+					left = true;
+				}
+				
+				if (y > prevY) {
+					up = true;
+				} else if (y < prevY) {
+					down = true;
+				}
+				
+				prevX = x;
+				prevY = y;
+			}
+			
+			sb.append((left & right & up & down) ? "NO" : "YES");
 			sb.append("\n");
 		}
 
