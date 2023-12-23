@@ -1,4 +1,4 @@
-//package com.codeforces;
+package com.codeforces;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -40,39 +40,33 @@ public class Main {
 				arr[i] = readIntegers();
 			}
 			
-			Arrays.sort(arr, (a, b) -> (a[0] - b[0]));
-			
-			boolean left = false, right = false, up = false, down = false;
-			
-			int prevX = 0, prevY = 0;
+			boolean xP = false, xM = false, yP = false, yM = false;
 			
 			for (int[] cor : arr) {
 				int x = cor[0], y = cor[1];
 				
-				if (x > prevX) {
-					right = true;
-				} else if (x < prevX) {
-					left = true;
-				}
+				if (x > 0) xP = true;
+				else if (x < 0) xM = true;
 				
-				if (y > prevY) {
-					up = true;
-				} else if (y < prevY) {
-					down = true;
-				}
-				
-				prevX = x;
-				prevY = y;
+				if (y > 0) yP = true;
+				else if (y < 0) yM = true;
 			}
 			
-			sb.append((left & right & up & down) ? "NO" : "YES");
+			int cnt = 0;
+			
+			if (xP) ++cnt;
+			if (xM) ++cnt;
+			if (yP) ++cnt;
+			if (yM) ++cnt;
+			
+			sb.append(cnt <= 3 ? "YES" : "NO");
+			
 			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
 	}
-
 	
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
