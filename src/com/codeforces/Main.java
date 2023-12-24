@@ -30,42 +30,37 @@ public class Main {
 //		int testCases = 1;
 
 //		long startTime = System.nanoTime();
-
+		
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 			int n = readInteger();
 			
-			int [][] arr = new int[n][2];
+			long[] arr = readLongs();
 			
-			for (int i = 0; i < n; i++) {
-				arr[i] = readIntegers();
+			long k = 2;
+			while (!getAns(arr, k)) {
+				k *= 2;
 			}
 			
-			boolean xP = false, xM = false, yP = false, yM = false;
-			
-			for (int[] cor : arr) {
-				int x = cor[0], y = cor[1];
-				
-				if (x > 0) xP = true;
-				else if (x < 0) xM = true;
-				
-				if (y > 0) yP = true;
-				else if (y < 0) yM = true;
-			}
-			
-			int cnt = 0;
-			
-			if (xP) ++cnt;
-			if (xM) ++cnt;
-			if (yP) ++cnt;
-			if (yM) ++cnt;
-			
-			sb.append(cnt <= 3 ? "YES" : "NO");
-			
+			sb.append(k);
 			sb.append("\n");
 		}
 
 		writer.write(sb.toString());
 		writer.flush();
+	}
+
+	private static long gcd(long a, long b) {
+		return a % b == 0 ? b : gcd(b, a % b);
+	}
+
+	private static boolean getAns(long[] arr, long k) {
+		HashSet<Long> set = new HashSet<>();
+		
+		for (long x : arr) {
+			set.add(x % k);
+		}
+		
+		return set.size() == 2;
 	}
 	
 	// ------------------------------------------------------------------------------------
