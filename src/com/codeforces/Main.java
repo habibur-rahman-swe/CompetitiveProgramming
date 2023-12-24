@@ -1,4 +1,4 @@
-//package com.codeforces;
+package com.codeforces;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,25 +25,35 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-//		int testCases = readInteger();
-		int testCases = 1;
+		int testCases = readInteger();
+//		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 		
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 			
-			String s = readString();
+			int n = readInteger();
+			int[] arr = readIntegers();
 			
-			Set<String> set = new TreeSet<>();
+			int zero = 0, neg = 0, pos = 0;
 			
-			permutation(s.length(), s, set, new StringBuilder(""));
-			
-			sb.append(set.size());
-			
-			for (String x : set) {
-				sb.append("\n").append(x);
+			for (int x : arr) {
+				if (x < 0) ++neg;
+				else if (x > 0) ++pos;
+				else ++zero;
 			}
 			
+			if (zero > 0) {
+				sb.append(0);
+			} else if (neg > 0) {
+				if (neg % 2 == 0) {
+					sb.append(1).append("\n").append(1 + " " + 0);
+				} else {
+					sb.append(0);
+				}
+			} else {
+				sb.append(1).append("\n").append(1 + " " + 0);
+			}
 			sb.append("\n");
 		}
 
