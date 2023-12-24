@@ -1,4 +1,4 @@
-package com.codeforces;
+//package com.codeforces;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,9 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Main {
 
@@ -26,22 +25,25 @@ public class Main {
 			reader = new BufferedReader(new InputStreamReader(System.in));
 		}
 
-		int testCases = readInteger();
-//		int testCases = 1;
+//		int testCases = readInteger();
+		int testCases = 1;
 
 //		long startTime = System.nanoTime();
 		
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int n = readInteger();
 			
-			long[] arr = readLongs();
+			String s = readString();
 			
-			long k = 2;
-			while (!getAns(arr, k)) {
-				k *= 2;
+			Set<String> set = new TreeSet<>();
+			
+			permutation(s.length(), s, set, new StringBuilder(""));
+			
+			sb.append(set.size());
+			
+			for (String x : set) {
+				sb.append("\n").append(x);
 			}
 			
-			sb.append(k);
 			sb.append("\n");
 		}
 
@@ -49,18 +51,16 @@ public class Main {
 		writer.flush();
 	}
 
-	private static long gcd(long a, long b) {
-		return a % b == 0 ? b : gcd(b, a % b);
-	}
-
-	private static boolean getAns(long[] arr, long k) {
-		HashSet<Long> set = new HashSet<>();
-		
-		for (long x : arr) {
-			set.add(x % k);
+	private static void permutation(int n, String s, Set<String> set, StringBuilder sb) {
+		if (sb.length() == n) {
+			set.add(new String(sb));
+			return;
 		}
-		
-		return set.size() == 2;
+		for (int i = 0; i < s.length(); i++) {
+			sb.append(s.charAt(i));
+			permutation(n, s.substring(0, i) + s.substring(i+1), set, sb);
+			sb.deleteCharAt(sb.length()-1);
+		}
 	}
 	
 	// ------------------------------------------------------------------------------------
