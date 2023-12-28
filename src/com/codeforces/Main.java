@@ -1,4 +1,4 @@
-//package com.codeforces;
+package com.codeforces;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,42 +33,26 @@ public class Main {
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 
 			int n = readInteger();
+			int[] arr = readIntegers();
 
-			String s = readString();
-
-			StringBuilder res = new StringBuilder();
+			long sum = 0;
 			
-			Queue<Character> queue = new LinkedList<>();
-			queue.add(s.charAt(0));
+			int l = 0, r = 0;
+			boolean flag = false;
 			
-			int[] arr = new int[n];
-			
-			for (int i = 1; i < n; i++) {
-				if (!isVowel(s.charAt(i-1)) && !isVowel(s.charAt(i))) {
-					while (queue.size() > 3) {
-						for (int j = 0; j < 2; j++) {
-							sb.append(queue.poll());
-						}
-						sb.append('.');
-					}
-					while (!queue.isEmpty()) {
-						sb.append(queue.poll());
-					}
-					sb.append('.');
+			while (r < n) {
+				if (r % 2 == 0) sum += arr[r];
+				else sum -= arr[r];
+				
+				if (sum == 0){
+					flag = true;
+					break;
 				}
-				queue.add(s.charAt(i));
-			}
-
-			while (queue.size() > 3) {
-				for (int j = 0; j < 2; j++) {
-					sb.append(queue.poll());
-				}
-				sb.append('.');
-			}
-			while (!queue.isEmpty()) {
-				sb.append(queue.poll());
+				
+				r++;
 			}
 			
+			sb.append(flag);
 			sb.append("\n");
 		}
 
@@ -76,9 +60,6 @@ public class Main {
 		writer.flush();
 	}
 
-	private static boolean isVowel(char c) {
-		return c == 'a' | c == 'e';
-	}
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
 		String s = reader.readLine();
