@@ -33,21 +33,19 @@ public class Main {
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
 			
-			HashMap<Character, Integer> map = new HashMap<>();
-			for (int i = 0; i < 3;  i++) {
-				String s = readString();
-				
-				for (char c : s.toCharArray()) {
-					map.put(c, map.getOrDefault(c, 0) + 1);
-				}
+			int n = readInteger();
+			long[] arr = readLongs();
+			
+			long sum = 0;
+			
+			for (long x : arr)  {
+				sum += x;
 			}
 			
-			for (char c : map.keySet()) {
-				if (map.get(c) == 2)  {
-					sb.append(c);
-					break;
-				}
-			}
+			long sqrt = (long)Math.sqrt(sum);
+			
+			sb.append((sqrt * sqrt) == sum ? "YES" : "NO");
+			
 			sb.append("\n");
 		}
 
