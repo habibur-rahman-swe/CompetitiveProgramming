@@ -7,9 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
 
@@ -32,19 +31,43 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			
+
 			int n = readInteger();
-			long[] arr = readLongs();
+
+			String s = readString();
+
+			StringBuilder res = new StringBuilder();
 			
-			long sum = 0;
+			Queue<Character> queue = new LinkedList<>();
+			queue.add(s.charAt(0));
 			
-			for (long x : arr)  {
-				sum += x;
+			int[] arr = new int[n];
+			
+			for (int i = 1; i < n; i++) {
+				if (!isVowel(s.charAt(i-1)) && !isVowel(s.charAt(i))) {
+					while (queue.size() > 3) {
+						for (int j = 0; j < 2; j++) {
+							sb.append(queue.poll());
+						}
+						sb.append('.');
+					}
+					while (!queue.isEmpty()) {
+						sb.append(queue.poll());
+					}
+					sb.append('.');
+				}
+				queue.add(s.charAt(i));
 			}
-			
-			long sqrt = (long)Math.sqrt(sum);
-			
-			sb.append((sqrt * sqrt) == sum ? "YES" : "NO");
+
+			while (queue.size() > 3) {
+				for (int j = 0; j < 2; j++) {
+					sb.append(queue.poll());
+				}
+				sb.append('.');
+			}
+			while (!queue.isEmpty()) {
+				sb.append(queue.poll());
+			}
 			
 			sb.append("\n");
 		}
@@ -53,18 +76,9 @@ public class Main {
 		writer.flush();
 	}
 
-	private static void permutation(int n, String s, Set<String> set, StringBuilder sb) {
-		if (sb.length() == n) {
-			set.add(new String(sb));
-			return;
-		}
-		for (int i = 0; i < s.length(); i++) {
-			sb.append(s.charAt(i));
-			permutation(n, s.substring(0, i) + s.substring(i + 1), set, sb);
-			sb.deleteCharAt(sb.length() - 1);
-		}
+	private static boolean isVowel(char c) {
+		return c == 'a' | c == 'e';
 	}
-
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
 		String s = reader.readLine();
