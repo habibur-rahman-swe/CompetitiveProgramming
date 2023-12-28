@@ -7,8 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Main {
 
@@ -29,31 +30,17 @@ public class Main {
 //		int testCases = 1;
 
 //		long startTime = System.nanoTime();
-		
+
 		for (int testCase = 1; testCase <= testCases; testCase++) {
+			int[] ar = readIntegers();
 			
-			int n = readInteger();
-			int[] arr = readIntegers();
+			int ans = 0;
 			
-			int zero = 0, neg = 0, pos = 0;
+			if (ar[0] == ar[1]) ans = ar[2];
+			else if (ar[0] == ar[2]) ans = ar[1];
+			else ans = ar[0];
 			
-			for (int x : arr) {
-				if (x < 0) ++neg;
-				else if (x > 0) ++pos;
-				else ++zero;
-			}
-			
-			if (zero > 0) {
-				sb.append(0);
-			} else if (neg > 0) {
-				if (neg % 2 == 0) {
-					sb.append(1).append("\n").append(1 + " " + 0);
-				} else {
-					sb.append(0);
-				}
-			} else {
-				sb.append(1).append("\n").append(1 + " " + 0);
-			}
+			sb.append(ans);
 			sb.append("\n");
 		}
 
@@ -68,11 +55,11 @@ public class Main {
 		}
 		for (int i = 0; i < s.length(); i++) {
 			sb.append(s.charAt(i));
-			permutation(n, s.substring(0, i) + s.substring(i+1), set, sb);
-			sb.deleteCharAt(sb.length()-1);
+			permutation(n, s.substring(0, i) + s.substring(i + 1), set, sb);
+			sb.deleteCharAt(sb.length() - 1);
 		}
 	}
-	
+
 	// ------------------------------------------------------------------------------------
 	private static String readString() throws IOException {
 		String s = reader.readLine();
