@@ -1,4 +1,4 @@
-package com.codeforces;
+//package com.codeforces;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -32,15 +32,22 @@ public class Main {
 //		long startTime = System.nanoTime();
 
 		for (int testCase = 1; testCase <= testCases; testCase++) {
-			int[] ar = readIntegers();
 			
-			int ans = 0;
+			HashMap<Character, Integer> map = new HashMap<>();
+			for (int i = 0; i < 3;  i++) {
+				String s = readString();
+				
+				for (char c : s.toCharArray()) {
+					map.put(c, map.getOrDefault(c, 0) + 1);
+				}
+			}
 			
-			if (ar[0] == ar[1]) ans = ar[2];
-			else if (ar[0] == ar[2]) ans = ar[1];
-			else ans = ar[0];
-			
-			sb.append(ans);
+			for (char c : map.keySet()) {
+				if (map.get(c) == 2)  {
+					sb.append(c);
+					break;
+				}
+			}
 			sb.append("\n");
 		}
 
